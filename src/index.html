@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./output.css" rel="stylesheet" />
+    <link rel="icon" type="image.png" href="../partly_cloudy.png" />
+    <title>weather</title>
+  </head>
+  <body class="container relative">
+    <div
+      class="flex pt-20 justify-center bg-gradient-to-tr from-abi to-skyabi line h-96 shadow-2xl shadow-skyabi rounded-b-[80px]"
+    >
+      <svg class="text-white hover:scale-125 cursor-pointer transition-all duration-500 mr-2 w-11 h-11"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="size-6"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+        />
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+        />
+      </svg>
+      <input class="rounded-l-lg h-fit w-96 p-2 focus:border-none focus:outline-none   text-abi" type="text" placeholder="Enter city name" />
+      <button class="text-xl h-10 px-4 bg-zard rounded-r-lg font-semibold">search</button>
+    </div>
+    <div id="weatherContianer" class="hidden gap-y-5 bg-white absolute left-0 right-0 rounded-2xl shadow-2xl  top-72 py-10 px-16 w-fit mx-auto flex-col items-center justify-center"></div>
+    <script src="../app.js"></script>
+  </body>
+</html>
