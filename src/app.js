@@ -1,6 +1,7 @@
 const BASE_URL = "https://api.openweathermap.org/data/2.5/";
 const API_KEY = "8d73f099f44b7630548bf824a6581762";
-const searchInput = document.querySelector("input");
+
+let searchInput = document.querySelector("input");
 const button = document.querySelector("button");
 const locationSvg = document.querySelector("Svg");
 
@@ -18,10 +19,13 @@ const DAY = [
 let data = [];
 let dataPerDay = [];
 
-const searchHandler = async () => {
+const searchHandler = async (latitude,longitude) => {
   const searchValue = searchInput.value;
-
-  const url = `${BASE_URL}weather?q=${searchValue}&appid=${API_KEY}&units=metric`;
+  const url = `${
+    searchValue
+      ? `${BASE_URL}weather?q=${searchValue}&appid=${API_KEY}&units=metric`
+      : `${BASE_URL}weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`
+  }`;
   try {
     await fetch(url)
       .then((res) => res.json())
@@ -32,43 +36,14 @@ const searchHandler = async () => {
 
     weatherContianer.innerHTML = miaoooo;
   }
-  getWeatherByeDays();
+  getWeatherByeDays(`${!searchValue && data.name}`);
 };
-
-const locationHandler = async (latitude, longitude) => {
-  const url = `${BASE_URL}weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`;
-
-  try {
-    await fetch(url)
-      .then((res) => res.json())
-      .then((json) => (data = json));
-    renderCurrentWeather();
-  } catch (error) {
-    const miaoooo = `<h1 class="text-2xl text-red-500">City not found </h1>`;
-
-    weatherContianer.innerHTML = miaoooo;
-  }
-  getWeatherByeDays2(data.name)
-  
-};
-const getWeatherByeDays2 = async (a) => {
-
-  const url = `${BASE_URL}forecast?q=${a}&appid=${API_KEY}&units=metric`;
-  try {
-    await fetch(url)
-      .then((res) => res.json())
-      .then((json) => (dataPerDay = json));
-    renderCurrentWeather();
-  } catch (error) {
-    const miaoooo = `<h1 class="text-2xl text-red-500">City not found </h1>`;
-
-    weatherContianer.innerHTML = miaoooo;
-  }
-  weatherDate(dataPerDay);
-};
-const getWeatherByeDays = async () => {
+//////////////data coming form api bye day
+const getWeatherByeDays = async (a) => {
   const cityName = searchInput.value;
-  const url = `${BASE_URL}forecast?q=${cityName}&appid=${API_KEY}&units=metric`;
+  const url = `${BASE_URL}forecast?q=${
+    cityName ? cityName : a
+  }&appid=${API_KEY}&units=metric`;
   try {
     await fetch(url)
       .then((res) => res.json())
@@ -81,33 +56,29 @@ const getWeatherByeDays = async () => {
   }
   weatherDate(dataPerDay);
 };
+/////////this function is for weatherData bye day
 const weatherDate = (date) => {
   const res = date.list.filter((res) => {
-    const mozinao = res.dt_txt.includes("12:00:00");
-    if (mozinao) {
-      return mozinao;
-    }
+    const daysBye = res.dt_txt.includes("12:00:00");
+    return daysBye;
   });
   console.log(res);
 
-  const dataLL = res.map(
+  weatherPerDayContianer.innerHTML = res.map(
     (data) =>
-      `
-      <div class="bg-white shadow-2xl rounded-2xl p-8 flex flex-col justify-around  items-center" >
+      `<div class="bg-white shadow-2xl rounded-2xl p-8 flex flex-col w-44 justify-around  items-center" >
         <img class="w-20 h-20" src="https://openweathermap.org/img/w/${
           data.weather[0].icon
         }.png">
-        <span class="text-2xl text-abi" > ${
+        <span class="text-2xl text-abi">${
           DAY[new Date(data.dt * 1000).getDay()]
-        } </span>
-        <p class="text-lg font-bold">${Math.round(data.main.temp)} °C</p>
+        }</span>
+        <p class="text-lg font-bold">${Math.round(data.main.temp)}°C</p>
         <span class="text-lg text-skyabi" >${data.weather[0].main}</span>
-      </div>
-      `
+      </div>`
   );
-  weatherPerDayContianer.innerHTML = dataLL;
 };
-
+////////////////this function showing currentWeather
 const renderCurrentWeather = () => {
   weatherContianer.classList.add("flex");
   weatherContianer.classList.remove("hidden");
@@ -132,11 +103,11 @@ const renderCurrentWeather = () => {
 `;
   weatherContianer.innerHTML = weatherJSX;
 };
+/////////////////////// this functions is for location
 const latto = (moz) => {
   const { latitude, longitude } = moz.coords;
-  locationHandler(latitude, longitude);
+  searchHandler(latitude, longitude);
 };
-
 const errorLatto = (erorr) => {
   weatherContianer.classList.add("flex");
   weatherContianer.classList.remove("hidden");
@@ -145,11 +116,11 @@ const errorLatto = (erorr) => {
   weatherContianer.innerHTML = locationError;
   console.log(erorr);
 };
-
 const locationState = () => {
   navigator.geolocation.getCurrentPosition(latto, errorLatto);
+  searchInput.value=""
 };
-//
+//////////////////// this function is for input when u press enter
 const enterHandler = (e) => {
   if (e.key === "Enter") {
     searchHandler();
@@ -157,4 +128,4 @@ const enterHandler = (e) => {
 };
 locationSvg.addEventListener("click", locationState);
 button.addEventListener("click", searchHandler);
-window.addEventListener("keydown", enterHandler);
+searchInput.addEventListener("keydown", enterHandler);

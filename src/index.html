@@ -7,9 +7,9 @@
     <link rel="icon" type="image.png" href="../partly_cloudy.png" />
     <title>weather</title>
   </head>
-  <body class="container relative">
+  <body class="lg:container relative sm:px-0">
     <div
-      class="flex pt-20 justify-center bg-gradient-to-tr from-abi to-skyabi line h-96 shadow-2xl shadow-skyabi rounded-b-[80px]"
+      class="flex sm:pt-20 pt-36 justify-center bg-gradient-to-tr from-abi to-skyabi h-96 shadow-2xl shadow-skyabi sm:rounded-b-[80px]"
     >
       <svg class="text-white hover:scale-125 cursor-pointer transition-all duration-500 mr-2 w-11 h-11"
         xmlns="http://www.w3.org/2000/svg"
@@ -30,11 +30,11 @@
           d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
         />
       </svg>
-      <input class="rounded-l-lg h-fit w-96 p-2 focus:border-none focus:outline-none   text-abi" type="text" placeholder="Enter city name" />
-      <button class="text-xl h-10 px-4 bg-zard rounded-r-lg font-semibold">search</button>
+      <input class="rounded-l-lg h-fit  sm:w-96 p-2  focus:border-none focus:outline-none   text-abi" type="text" placeholder="Enter city name" />
+      <button class="sm:text-xl   h-10 px-4 bg-zard rounded-r-lg font-semibold">search</button>
     </div>
-    <div id="weatherContianer" class="hidden gap-y-5 bg-white absolute left-0 right-0 rounded-2xl shadow-2xl  top-72 py-10 px-16 w-fit mx-auto flex-col items-center justify-center"></div>
-    <div id="weatherPerDays" class="flex justify-between items-center mt-80"></div>
+    <div id="weatherContianer" class="hidden gap-y-5  bg-white absolute left-0 right-0 rounded-2xl shadow-2xl  top-72 py-10 px-16 w-fit mx-auto flex-col items-center justify-center"></div>
+    <div id="weatherPerDays" class="flex justify-around items-center flex-wrap  gap-y-6  mt-80"></div>
     <script src="./app.js"></script>
   </body>
 </html>
